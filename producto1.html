@@ -3,237 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Galería de Imágenes</title>
-       <style>
-         .volver-button {
-          display: block;
-          margin: 10px;
-          padding: 8px 16px; /* Botón más pequeño */
-          background-color: #5137c4;
-          color: #fbfbf6;
-          text-align: center;
-          text-decoration: none;
-          border-radius: 5px;
-          font-size: 1.5rem; /* Tamaño de fuente más pequeño */
-         }
-         .volver-button:hover {
-          background-color: #210dd6;
-         }
-         .whatsapp-button{
-          display: block;
-          margin: 10px;
-          padding: 8px 16px; /* Botón más pequeño */
-          background-color: #20c774;
-          color: #fbfbf6;
-          text-align: center;
-          text-decoration: none;
-          border-radius: 5px;
-          font-size: 1.5rem; /* Tamaño de fuente más pequeño */
-         }
-         .precio-button {
-          display: block;
-          margin: 10px;
-          padding: 8px 16px; /* Botón más pequeño */
-          background-color: #f52a06;
-          color: #fbfbf6;
-          text-align: center;
-          text-decoration: none;
-          border-radius: 5px;
-          font-size: 1.5rem; /* Tamaño de fuente más pequeño */
-         }
-        
-          /* Estilos básicos fondos internos*/
-           body, html {
+    <title>Galería de Imágenes</title>
+    <style>
+        /* ===== RESET Y FONDO ===== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #91d6f1, #a5f4ff); /* Fondo degradado rojo */
+            /* Imagen de fondo: cambia la URL por la tuya */
+            background-image: url('logofondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* efecto parallax suave */
+            background-repeat: no-repeat;
             color: #fff;
             text-align: center;
-            overflow: hidden;  
-          }
-           /* Contenedor de la galería */
-           .galeria {
-          max-width: 1200px;
-          margin: 20px auto;
-          padding: 20px;
-          background-color: rgba(172, 247, 243, 0.5); /* Fondo semitransparente */
-          border-radius: 10px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-         }
-            
-            /* Estilo de las imágenes pequeñas */
-            .galeria img {
-            width: 290px;
+            overflow-x: hidden; /* Evita scroll horizontal */
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .galeria {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4); /* Fondo semitransparente para legibilidad */
+            border-radius: 16px;
+            backdrop-filter: blur(4px); /* efecto de desenfoque detrás */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* ===== GALERÍA RESPONSIVE (GRID) ===== */
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .galeria-grid img {
+            width: 100%;
             height: 150px;
             object-fit: cover;
             cursor: pointer;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            transition: transform 0.3s ease;
-           }
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-           .galeria img:hover {
-            transform: scale(1.1);
-            }
+        .galeria-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
 
-           /* Estilo del modal */
-            #modal {
-            display: none; /* Oculto por defecto */
+        /* ===== BOTONES ===== */
+        .botones-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+            background-color: #5137c4; /* color por defecto */
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+        .btn-volver {
+            background-color: #5137c4;
+        }
+        .btn-volver:hover {
+            background-color: #210dd6;
+        }
+
+        .btn-whatsapp {
+            background-color: #20c774;
+        }
+        .btn-whatsapp:hover {
+            background-color: #17a85a;
+        }
+
+        .btn-precio {
+            background-color: #f52a06;
+            cursor: default; /* no es interactivo */
+        }
+
+        /* ===== MODAL ===== */
+        #modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro */
+            background-color: rgba(0, 0, 0, 0.92);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-           }
+            padding: 20px;
+        }
 
-           /* Estilo de la imagen dentro del modal */
-           #imagen-completa {
+        #imagen-completa {
             max-width: 90%;
             max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
             cursor: pointer;
-           }
+        }
 
-           /* Botón para cerrar el modal */
-           #cerrar-modal {
+        #cerrar-modal {
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 25px;
+            right: 35px;
             color: white;
-            font-size: 30px;
+            font-size: 40px;
             font-weight: bold;
             cursor: pointer;
-           }
-         .music-control {
-          position: fixed;
-          bottom: 10px; /* Posición ajustada para móviles */
-          right: 10px; /* Posición ajustada para móviles */
-          background-color: #2c3e50;
-          color: #ffffff;
-          padding: 8px 16px; /* Botón más pequeño */
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-         }
-         /* Estilos específicos para móviles */
-         @media (max-width: 600px) 
-        {
-         header h1 {
-         font-size: 1.8rem; /* Tamaño de fuente más pequeño para móviles */
+            transition: 0.3s;
         }
-         header p {
-         font-size: 0.9rem; /* Tamaño de fuente más pequeño para móviles */
+        #cerrar-modal:hover {
+            color: #ccc;
         }
-        }
-        .galeria-img {
-         height: 120px; /* Altura reducida para móviles */
-        }
+
+        /* ===== CONTROL DE MÚSICA ===== */
         .music-control {
-         font-size: 0.8rem; /* Tamaño de fuente más pequeño */
-        }  
-       /* Emoticones flotantes */
-       .floating-emojis {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 999;
+            border: none;
+            transition: background 0.3s;
+        }
+        .music-control:hover {
+            background-color: #1a2632;
         }
 
-        .floating-emojis span {
-            position: absolute;
-            display: block;
-            font-size: 2rem;
-            animation: animateEmojis 10s linear infinite;
-            bottom: -10%;
+        /* ===== FOOTER ===== */
+        footer {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(2px);
         }
 
-        @keyframes animateEmojis {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
+        /* ===== MEDIA QUERIES PARA MÓVILES ===== */
+        @media (max-width: 600px) {
+            .galeria {
+                margin: 10px;
+                padding: 15px;
             }
-            100% {
-                transform: translateY(-110vh) rotate(720deg);
-                opacity: 0;
+
+            .galeria-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 8px;
+            }
+
+            .galeria-grid img {
+                height: 120px;
+            }
+
+            .btn {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+
+            .music-control {
+                font-size: 0.8rem;
+                padding: 6px 14px;
+                bottom: 10px;
+                right: 10px;
+            }
+
+            #cerrar-modal {
+                top: 15px;
+                right: 20px;
+                font-size: 30px;
+            }
+
+            footer {
+                font-size: 0.75rem;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .galeria-grid {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            }
+            .galeria-grid img {
+                height: 90px;
             }
         }
     </style>
 </head>
 <body>
-  <script>
-    // Configuración
-    const scrollSpeed = 2; // Velocidad del desplazamiento
 
-    // Función para desplazar la página
-    function scrollPage(deltaY) {
-        window.scrollBy({
-            top: deltaY * scrollSpeed,
-            behavior: "smooth" // Desplazamiento suave
-        });
-    }
-
-    // Desplazamiento con la rueda del mouse (desktop)
-    document.addEventListener("wheel", function(event) {
-        event.preventDefault(); // Prevenir el comportamiento predeterminado
-        scrollPage(event.deltaY);
-    }, { passive: false });
-
-    // Desplazamiento táctil (móviles)
-    let touchStartY = 0; // Posición inicial del toque
-
-    document.addEventListener("touchstart", function(event) {
-        touchStartY = event.touches[0].clientY; // Guardar la posición inicial del toque
-    });
-
-    document.addEventListener("touchmove", function(event) {
-        event.preventDefault(); // Prevenir el comportamiento predeterminado
-        const touchEndY = event.touches[0].clientY; // Posición actual del toque
-        const deltaY = touchStartY - touchEndY; // Calcular la diferencia
-        touchStartY = touchEndY; // Actualizar la posición inicial
-        scrollPage(deltaY);
-    }, { passive: false });
-</script>
-
-    <!-- Galería de imágenes -->
+    <!-- ===== GALERÍA ===== -->
     <div class="galeria">
-        <img src="1peluche.jpg" alt="Imagen 1" data-full="1peluche.jpg">
-        <img src="2peluche.jpg" alt="Imagen 2" data-full="2peluche.jpg">
-        <img src="3peluche.jpg" alt="Imagen 3" data-full="3peluche.jpg">
-        <img src="4peluche.jpg" alt="Imagen 3" data-full="4peluche.jpg">
-        <img src="5peluche.jpg" alt="Imagen 3" data-full="5peluche.jpg">
-        <img src="6peluche.jpg" alt="Imagen 3" data-full="6peluche.jpg">
-        <img src="7peluche.jpg" alt="Imagen 3" data-full="7peluche.jpg">
-        <img src="8peluche.jpg" alt="Imagen 3" data-full="8peluche.jpg">
-        <img src="9peluche.jpg" alt="Imagen 3" data-full="9peluche.jpg">
-        <img src="10peluche.jpg" alt="Imagen 3" data-full="10peluche.jpg">
-        <img src="11peluche.jpg" alt="Imagen 3" data-full="11peluche.jpg">
-        <img src="12peluche.jpg" alt="Imagen 3" data-full="12peluche.jpg">
-        <img src="13peluche.jpg" alt="Imagen 3" data-full="13peluche.jpg">
-        <img src="14peluche.jpg" alt="Imagen 3" data-full="14peluche.jpg">
-        <img src="15peluche.jpg" alt="Imagen 3" data-full="15peluche.jpg">
-        
+        <div class="galeria-grid">
+            <!-- Las imágenes se cargan desde la misma carpeta; asegúrate de que los archivos existan -->
+                <img src="1peluche.jpg" alt="Imagen 1" data-full="1peluche.jpg">
+                <img src="2peluche.jpg" alt="Imagen 2" data-full="2peluche.jpg">
+                <img src="3peluche.jpg" alt="Imagen 3" data-full="3peluche.jpg">
+                <img src="4peluche.jpg" alt="Imagen 3" data-full="4peluche.jpg">
+                <img src="5peluche.jpg" alt="Imagen 3" data-full="5peluche.jpg">
+               <img src="6peluche.jpg" alt="Imagen 3" data-full="6peluche.jpg">
+               <img src="7peluche.jpg" alt="Imagen 3" data-full="7peluche.jpg">
+               <img src="8peluche.jpg" alt="Imagen 3" data-full="8peluche.jpg">
+               <img src="9peluche.jpg" alt="Imagen 3" data-full="9peluche.jpg">
+               <img src="10peluche.jpg" alt="Imagen 3" data-full="10peluche.jpg">
+               <img src="11peluche.jpg" alt="Imagen 3" data-full="11peluche.jpg">
+               <img src="12peluche.jpg" alt="Imagen 3" data-full="12peluche.jpg">
+               <img src="13peluche.jpg" alt="Imagen 3" data-full="13peluche.jpg">
+               <img src="14peluche.jpg" alt="Imagen 3" data-full="14peluche.jpg">
+               <img src="15peluche.jpg" alt="Imagen 3" data-full="15peluche.jpg">
+         </div>
+
+         <!-- Botones -->
+         <div class="botones-container">
+            <span class="btn btn-precio">BS</span>
+            <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
+            <a href="index.html" class="btn btn-volver">Volver</a>
+         </div>
     </div>
-    <!-- Modal para la imagen en tamaño completo -->
+
+    <!-- ===== MODAL ===== -->
     <div id="modal">
         <span id="cerrar-modal">&times;</span>
         <img id="imagen-completa" src="" alt="Imagen en tamaño completo">
     </div>
 
+    <!-- ===== CONTROL DE MÚSICA ===== -->
+    <div class="music-control" onclick="toggleMusic()">Activar música de fondo</div>
+    <audio id="backgroundMusic" loop>
+        <source src="ledzeppelin.mp3" type="audio/mpeg">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>&copy; 2026 JYNDUVET. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+
+    <!-- 1. Desplazamiento con rueda y táctil (sin cambios) -->
     <script>
-        // JavaScript para abrir y cerrar el modal con múltiples imágenes
-        const galeria = document.querySelector('.galeria');
+        const scrollSpeed = 2;
+        function scrollPage(deltaY) {
+            window.scrollBy({
+                top: deltaY * scrollSpeed,
+                behavior: "smooth"
+            });
+        }
+        document.addEventListener("wheel", function(event) {
+            event.preventDefault();
+            scrollPage(event.deltaY);
+        }, { passive: false });
+
+        let touchStartY = 0;
+        document.addEventListener("touchstart", function(event) {
+            touchStartY = event.touches[0].clientY;
+        });
+        document.addEventListener("touchmove", function(event) {
+            event.preventDefault();
+            const touchEndY = event.touches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+            touchStartY = touchEndY;
+            scrollPage(deltaY);
+        }, { passive: false });
+    </script>
+
+    <!-- 2. Modal para imágenes -->
+    <script>
+        const galeriaGrid = document.querySelector('.galeria-grid');
         const modal = document.getElementById('modal');
         const imagenCompleta = document.getElementById('imagen-completa');
         const cerrarModal = document.getElementById('cerrar-modal');
 
-        // Abrir el modal al hacer clic en una imagen de la galería
-        galeria.addEventListener('click', (event) => {
+        galeriaGrid.addEventListener('click', (event) => {
             if (event.target.tagName === 'IMG') {
                 const srcCompleto = event.target.getAttribute('data-full');
                 imagenCompleta.setAttribute('src', srcCompleto);
@@ -241,73 +320,31 @@
             }
         });
 
-        // Cerrar el modal al hacer clic en la "X"
         cerrarModal.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
-        // Cerrar el modal al hacer clic fuera de la imagen
         modal.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
     </script>
-      <!-- Emoticones flotantes -->
-      <div class="floating-emojis">
-      </div>
-          <!-- Generamos emoticones dinámicamente -->
-          <script>
-            const emojis = ["🐻", "🐨", "🎶", "🐼", "🎶", "🐨", "🐼"]; // Emoticones de corazones y flores
-            function createEmoji() {
-                const emoji = document.createElement('span');
-                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)]; // Emoticon aleatorio
-                emoji.style.left = Math.random() * 100 + 'vw'; // Posición horizontal aleatoria
-                emoji.style.fontSize = Math.random() * 3 + 2 + 'rem'; // Tamaño aleatorio
-                emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Duración aleatoria
-                emoji.style.opacity = Math.random(); // Opacidad aleatoria
-                document.querySelector('.floating-emojis').appendChild(emoji);
-  
-                // Eliminar el emoticon después de que termine la animación
-                setTimeout(() => {
-                    emoji.remove();
-                }, 10000); // 10000ms = 10s (duración de la animación)
+
+    <!-- 3. Control de música -->
+    <script>
+        function toggleMusic() {
+            var audio = document.getElementById("backgroundMusic");
+            var button = document.querySelector(".music-control");
+            if (audio.paused) {
+                audio.play();
+                button.textContent = "Desactivar música de fondo";
+            } else {
+                audio.pause();
+                button.textContent = "Activar música de fondo";
             }
-            // Crear emoticones cada 600ms
-            setInterval(createEmoji, 600);
-           </script>
-        </div>
-    <a class="precio-button">PRECIO 130 BS </a>
-    <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
-    <a href="index.html" class="volver-button">volver</a>
-     <!-- Control de música -->
-  <div class="music-control" onclick="toggleMusic()">
-    Activar música de fondo
-  </div>
-  <!-- Reproductor de audio -->
-  <audio id="backgroundMusic" loop>
-    <source src="ledzeppelin.mp3" type="audio/mpeg">
-    Tu navegador no soporta la reproducción de audio.
-  </audio>
+        }
+    </script>
 
-  <!-- Pie de página -->
-  <footer>
-    <p>&copy; 2025 PolarCloud. Todos los derechos reservados.</p>
-  </footer>
-
-  <!-- Script para controlar la música -->
-  <script>
-    function toggleMusic() {
-      var audio = document.getElementById("backgroundMusic");
-      var button = document.querySelector(".music-control");
-      if (audio.paused) {
-        audio.play();
-        button.textContent = "Desactivar música de fondo";
-      } else {
-        audio.pause();
-        button.textContent = "Activar música de fondo";
-      }
-    }
-  </script>
 </body>
 </html>
