@@ -3,192 +3,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PolarCloud - Frazadas Polares</title>
+  <title>JYNDUVET - Frazadas y Edredones</title>
   <style>
-    body {
-      font-family: 'Nunito', sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background-image: url('logofondo.jpg'); /* Imagen de fondo */
-      background-size: cover; /* Cubre toda la pantalla */
-      background-position: center; /* Centra la imagen */
-      background-attachment: fixed; /* Fija la imagen al desplazarse */
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-image: url('logofondo.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
       color: #333;
+      min-height: 100vh;
     }
+
+    /* ===== ENCABEZADO ===== */
     header {
-      background-color: rgba(222, 253, 251, 0.5); /* Fondo semitransparente */
-      padding: 20px;
+      background-color: rgba(222, 253, 251, 0.6);
+      padding: 20px 15px;
       text-align: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      position: relative; /* Para posicionar el logo */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
     }
+
     header h1 {
-      margin: 0;
-      font-size: 2rem; /* Tamaño de fuente más pequeño para móviles */
+      font-size: 2.4rem;
       color: #2c3e50;
-      position: relative; /* Para que el texto esté sobre el logo */
-      z-index: 2; /* Asegura que el texto esté sobre la imagen */
-      
+      position: relative;
+      z-index: 2;
+      letter-spacing: 2px;
+      margin: 0;
     }
+
     header p {
-      font-size: 1rem; /* Tamaño de fuente más pequeño para móviles */
+      font-size: 1.1rem;
       color: #010847;
-      position: relative; /* Para que el texto esté sobre el logo */
-      z-index: 2; /* Asegura que el texto esté sobre la imagen */
+      position: relative;
+      z-index: 2;
+      margin: 5px 0;
     }
+
     .logo-background {
-      position: absolute; /* Posiciona el logo detrás del texto */
-      top: 50%; /* Centra verticalmente */
-      left: 50%; /* Centra horizontalmente */
-      transform: translate(-50%, -50%); /* Ajusta el centrado */
-      opacity: 0.2; /* Hace el logo semi-transparente */
-      z-index: 1; /* Coloca el logo detrás del texto */
-      width: 400px; /* Tamaño del logo */
-      height: 130px; /* Mantiene la proporción */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.15;
+      z-index: 1;
+      width: 300px;
+      height: auto;
+      pointer-events: none;
     }
+
+    /* ===== SECCIÓN DEL VIDEO ===== */
+    .video-section {
+      max-width: 1200px;
+      margin: 20px auto 10px;
+      padding: 0 20px;
+    }
+
+    .video-container {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .video-container video {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background-color: #000;
+    }
+
+    /* Botón de control de sonido (sobre el video) */
+    .sound-control-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .sound-control-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+      border-color: #fff;
+    }
+
+    /* ===== CONTENEDOR DE PRODUCTOS ===== */
     .container {
       max-width: 1200px;
-      margin: 20px auto;
+      margin: 10px auto 20px;
       padding: 20px;
-      background-color: rgba(172, 247, 243, 0.5); /* Fondo semitransparente */
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: rgba(172, 247, 243, 0.5);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      backdrop-filter: blur(2px);
     }
+
+    .container h2 {
+      text-align: center;
+      color: #1a2a3a;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Columnas más pequeñas para móviles */
-      gap: 15px; /* Espaciado reducido */
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      justify-items: center;
     }
+
     .product-card {
       background-color: #ffffff;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
+      width: 100%;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
     }
+
     .product-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
+
     .product-card img {
       width: 100%;
-      height: 150px; /* Altura reducida para móviles */
+      height: 200px;
       object-fit: cover;
+      display: block;
     }
+
     .product-card h3 {
-      margin: 10px;
-      font-size: 1.2rem; /* Tamaño de fuente más pequeño */
+      margin: 12px 12px 6px;
+      font-size: 1.2rem;
       color: #2c3e50;
     }
+
     .product-card p {
-      margin: 0 10px 10px;
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-      color: #7f8c8d;
+      margin: 0 12px 10px;
+      font-size: 0.95rem;
+      color: #555;
+      flex-grow: 1;
     }
-    .masimagen-button {
+
+    .btn {
       display: block;
-      margin: 10px;
-      padding: 8px 16px; /* Botón más pequeño */
-      background-color: #63d9ee;
-      color: #ffffff;
+      margin: 8px 12px;
+      padding: 10px 16px;
       text-align: center;
       text-decoration: none;
-      border-radius: 5px;
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: background 0.3s;
+      border: none;
+      cursor: pointer;
+      color: #fff;
     }
-    .masimagen-button:hover {
+
+    .btn-precio {
+      background-color: #3835dd;
+    }
+    .btn-precio:hover {
+      background-color: #2521b0;
+    }
+
+    .btn-mas {
+      background-color: #63d9ee;
+    }
+    .btn-mas:hover {
       background-color: #24c9e6;
     }
-    .precio {
-      display: block;
-      margin: 10px;
-      padding: 8px 16px; /* Botón más pequeño */
-      background-color: #3835dd;
-      color: #ffffff;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-    }
-    .whatsapp-button {
-      display: block;
-      margin: 10px;
-      padding: 8px 16px; /* Botón más pequeño */
+
+    .btn-whatsapp {
       background-color: #25d366;
-      color: #ffffff;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
     }
-    .whatsapp-button:hover {
+    .btn-whatsapp:hover {
       background-color: #128c7e;
     }
-    .music-control {
-      position: fixed;
-      bottom: 10px; /* Posición ajustada para móviles */
-      right: 10px; /* Posición ajustada para móviles */
-      background-color: #2c3e50;
-      color: #ffffff;
-      padding: 8px 16px; /* Botón más pequeño */
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-    }
+
+    /* ===== FOOTER ===== */
     footer {
-      background-color: rgba(0, 3, 5, 0.8); /* Fondo semitransparente */
+      background-color: rgba(0, 3, 5, 0.85);
       color: #f6f7f8;
       text-align: center;
       padding: 15px;
-      margin-top: 20px; /* Espaciado reducido */
-      font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+      margin-top: 30px;
+      font-size: 0.9rem;
     }
 
-    /* Estilos específicos para móviles */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.8rem; /* Tamaño de fuente más pequeño para móviles */
-      }
-      header p {
-        font-size: 0.9rem; /* Tamaño de fuente más pequeño para móviles */
-      }
-      .logo-background {
-        width: 100px; /* Tamaño más pequeño para móviles */
-      }
-      .product-grid {
-        grid-template-columns: 1fr; /* Una columna en móviles */
-      }
-      .product-card img {
-        height: 120px; /* Altura reducida para móviles */
-      }
-      .whatsapp-button {
-        font-size: 0.8rem; /* Tamaño de fuente más pequeño */
-      }
-      .music-control {
-        font-size: 0.8rem; /* Tamaño de fuente más pequeño */
+      header h1 { font-size: 1.8rem; }
+      header p { font-size: 0.9rem; }
+      .logo-background { width: 150px; }
+      .product-grid { grid-template-columns: 1fr; }
+      .product-card { max-width: 100%; }
+      .product-card img { height: 160px; }
+      .btn { font-size: 0.85rem; padding: 8px 12px; }
+      .sound-control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        bottom: 10px;
+        right: 10px;
       }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Encabezado -->
+
+  <!-- ===== ENCABEZADO ===== -->
   <header>
-    <img src="logofondo.jpg" alt="Logo PolarCloud" class="logo-background" width="1000">
-    <h1>PolarCloud</h1>
-    <p>Descansa en la nube de confort</p>
+    <img src="logofondo.jpg" alt="Logo JYNDUVET" class="logo-background">
+    <h1>𝓙𝓨𝓝DUVET</h1>
+    <p>ABRIGAMOS TU SUEÑO</p>
+    <p>𝓐𝓒𝓞𝓜𝓟𝓐𝓝𝓐𝓜𝓞𝓢 𝓣𝓤 𝓓𝓔𝓢𝓒𝓐𝓝𝓢𝓞</p>
   </header>
-  <!-- Contenido principal -->
+
+  <!-- ===== VIDEO CON BOTÓN DE SONIDO ===== -->
+  <section class="video-section">
+    <div class="video-container">
+      <video id="miVideo" loop playsinline muted autoplay>
+        <source src="VIDEO0.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+      </video>
+      <!-- Botón de control de sonido -->
+      <button class="sound-control-btn" id="soundToggle" aria-label="Activar/Desactivar sonido">
+        🔇
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTOS ===== -->
   <div class="container">
     <h2>Nuestra Colección</h2>
     <div class="product-grid">
+
+      <!-- Producto 0 -->
+      <div class="product-card">
+        <img src="producto1.jpg" alt="Colchas Manta">
+        <h3>Colchas Manta de 1, 2 y 3 plazas 🛏️</h3>
+        <p>"Esta época de frío, no solo regales una colcha 🛏️, ¡regala un abrazo cálido!"</p>
+        <a class="btn btn-precio"> Bs </a>
+        <a href="producto0.html" class="btn btn-mas">más imágenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
+      </div>
       <!-- Producto 1 -->
       <div class="product-card">
         <img src="1peluches.jpg" alt="peluches">
         <h3>Abraza el Amor Peluches de 60 cm🐼con Manta de 1 plaza 🛏️ para San Valentín</h3>
         <p>"Este San Valentín, no solo regales un peluche 🧸, ¡regala un abrazo cálido!".</p>
-        <a class="precio">140 bs</a>
-        <a href="producto1.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto1.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 2 -->
       <div class="product-card">
@@ -198,9 +295,9 @@
           ¡Renueva tu cama con estilo!  
           ✅ Colores vibrantes y sólidos  
           ✅ Suavidad y durabilidad garantizadas  .</p>
-        <a class="precio">140 bs</a>
-        <a href="producto2.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto2.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 3 -->
       <div class="product-card">
@@ -209,9 +306,9 @@
         <p>✨ Mantitas Luminosas ✨  
           Suaves, cálidas y con un toque mágico. ¡Perfectas para noches acogadoras!  
           📲 ¡Pide la tuya hoy!</p>
-        <a class="precio">150 bs</a>
-        <a href="producto3.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto3.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 4 -->
       <div class="product-card">
@@ -219,77 +316,93 @@
         <h3>✨ Mantitas Luminosas 2 plazas✨ </h3>
         <p> Suaves, cálidas y con un toque mágico. ¡Perfectas para noches acogadoras!  
           📲 ¡Pide la tuya hoy!</p>
-        <a class="precio"> 70 bs</a>
-        <a href="producto4.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto4.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 5 -->
       <div class="product-card">
         <img src="tigre.jpg" alt="Frazada Polar 1.5 y 2 plazas">
         <h3>Frazada Tigre Polar 1.5 y 2 plazas</h3>
         <p>Suave y abrigada, perfecta para el invierno.</p>
-        <a class="precio"> 155 bs</a>
-        <a href="producto5.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto5.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 6 -->
       <div class="product-card">
         <img src="pelolargo.jpg" alt="Edredon">
         <h3>Edredon de pelo largo 2plazas</h3>
         <p>Suave y abrigada, perfecta para el invierno.</p>
-        <a class="precio"> 260 bs</a>
-        <a href="producto6.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto6.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 7 -->
       <div class="product-card">
         <img src="goldsonchiporro.jpg" alt="chiporo">
         <h3>Edredon de 2 plazas</h3>
         <p>Suave y abrigada, perfecta para el invierno.</p>
-        <a class="precio"> 250 bs</a>
-        <a href="producto7.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a class="btn btn-precio"> Bs</a>
+        <a href="producto7.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
       <!-- Producto 8 -->
       <div class="product-card">
         <img src="" alt="Frazada Polar Azul">
         <h3>mucho mas</h3>
         <p>pronta actualizacion</p>
-        <a href="producto8.html" class="masimagen-button">mas imagenes</a>
-        <a href="https://api.whatsapp.com/send/?phone=72869599&text&type=phone_number&app_absent=0&wame_ctl=1" class="whatsapp-button">Pedir por WhatsApp</a>
+        <a href="producto8.html" class="btn btn-mas">mas imagenes</a>
+        <a href="https://api.whatsapp.com/send/?phone=73403501&text&type=phone_number&app_absent=0&wame_ctl=1" class="btn btn-whatsapp">Pedir por WhatsApp</a>
       </div>
+      <!-- Puedes agregar más productos aquí -->
     </div>
   </div>
 
-  <!-- Control de música -->
-  <div class="music-control" onclick="toggleMusic()">
-    Activar música de fondo
-  </div>
-
-  <!-- Reproductor de audio -->
-  <audio id="backgroundMusic" loop>
-    <source src="bruno.mp3" type="audio/mpeg">
-    Tu navegador no soporta la reproducción de audio.
-  </audio>
-
-  <!-- Pie de página -->
+  <!-- ===== PIE DE PÁGINA ===== -->
   <footer>
-    <p>&copy; 2025 PolarCloud. Todos los derechos reservados.</p>
+    <p>&copy; 2026 JYNDUVET. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- Script para controlar la música -->
+  <!-- ===== SCRIPT DE CONTROL DE SONIDO ===== -->
   <script>
-    function toggleMusic() {
-      var audio = document.getElementById("backgroundMusic");
-      var button = document.querySelector(".music-control");
-      if (audio.paused) {
-        audio.play();
-        button.textContent = "Desactivar música de fondo";
-      } else {
-        audio.pause();
-        button.textContent = "Activar música de fondo";
-      }
-    }
+    (function() {
+      var video = document.getElementById('miVideo');
+      var toggleBtn = document.getElementById('soundToggle');
+
+      // Estado inicial: mute = true (sin sonido), mostramos ícono de mute
+      toggleBtn.textContent = '🔇';
+
+      toggleBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // Evita que el clic en el botón active otros eventos
+        if (video.muted) {
+          // Activar sonido
+          video.muted = false;
+          toggleBtn.textContent = '🔊';
+          // Opcional: si el video está pausado, reproducirlo
+          if (video.paused) {
+            video.play().catch(function(err) {
+              // Puede fallar si el usuario no ha interactuado antes, pero con el clic ya debería funcionar
+              console.warn('No se pudo reproducir automáticamente:', err);
+            });
+          }
+        } else {
+          // Desactivar sonido (silenciar)
+          video.muted = true;
+          toggleBtn.textContent = '🔇';
+        }
+      });
+
+      // Asegurar que el video comience silenciado (por si el atributo muted falla)
+      video.muted = true;
+
+      // Opcional: si el usuario hace clic en el video, se puede alternar el sonido también
+      video.addEventListener('click', function() {
+        toggleBtn.click();
+      });
+
+    })();
   </script>
+
 </body>
 </html>
